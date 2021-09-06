@@ -58,6 +58,7 @@ def get_migration_data():
 
         num_migrations = len(migrations)
 
+        # TODO: Go through the migration lines.
         needed_migrations = []
         locking_migrations = []
 
