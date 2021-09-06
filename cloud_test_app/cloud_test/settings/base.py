@@ -16,6 +16,7 @@ INSTALLED_APPS = [
 
     'bootstrap4',
     'locking',
+    'widget_tweaks',
 
     'django.contrib.admin',
     'django.contrib.auth',
