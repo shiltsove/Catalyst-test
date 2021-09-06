@@ -3,10 +3,8 @@
 
 {% block body_content %}
 <div class="container main-body">
-
+  <h1 class="index-heading">Simple Questionnaire</h1>
   <div class="index-main">
-    Simple Questionnaire
-
     <form action="" method="post" novalidate>
       {% csrf_token %}
       {% for field in question_form.visible_fields %}
