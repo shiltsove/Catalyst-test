@@ -51,12 +51,12 @@ def results(request):
 
     month_fav_day = []
     months_in_questionnare = question_list.values_list('month', flat=True).distinct()
+
     for month in months_in_questionnare:
-        days_in_month = question_list.filter(month=month).values('day').annotate(the_count=Count('day'))
-        popular_day = days_in_month.filter(the_count=days_in_month.aggregate(Max('the_count'))['the_count__max'])[0]['day']
+        fav_day = question_list.filter(month=month).values('day').annotate(the_count=Count('day')).order_by('-the_count').first()['day']
         month_fav_day.append({
             'month': human_readable_months[month],
-            'day': human_readable_days[popular_day]
+            'day': human_readable_days[fav_day]
             })
 
     context = {
