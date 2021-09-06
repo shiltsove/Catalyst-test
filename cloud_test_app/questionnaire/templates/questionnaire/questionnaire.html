@@ -1,0 +1,52 @@
+{% extends "questionnaire/base.html" %}
+{% load widget_tweaks %}
+
+{% block body_content %}
+<div class="container main-body">
+
+  <div class="index-main">
+    Simple Questionnaire
+    form generation here
+
+    Hello Jack, Hydra is waiting for you.<br>
+    <form action="" method="post" novalidate>
+      {% csrf_token %}
+      {% for field in question_form.visible_fields %}
+        <div class="form-group m-0 p-0">
+          {{ field.label_tag }}
+
+          {% if question_form.is_bound %}
+            {% if field.errors %}
+              {% render_field field class="form-control is-invalid" %}
+              {% for error in field.errors %}
+                <div class="invalid-feedback">
+                  {{ error }}
+                </div>
+              {% endfor %}
+            {% else %}
+              {% render_field field class="form-control is-valid" %}
+              <div class="font12">
+                <br>
+              </div>
+            {% endif %}
+          {% else %}
+            {% render_field field class="form-control" %}
+            <div class="font12">
+              <br>
+            </div>
+          {% endif %}
+
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <div class="form-group">
+        <a href="{% url 'index' %}" class="btn btn-primary float-right">Back to index</a>
+        <input class="btn btn-success" type="submit" value="Submit">
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
