@@ -59,9 +59,16 @@ def get_migration_data():
         num_migrations = len(migrations)
 
         # TODO: Go through the migration lines.
-        # If the migration is a needed migration, add it to: needed_migrations
-        # If the migration is from the locking app, also add it to:
-        #   locking_migrations
+        needed_migrations = []
+        locking_migrations = []
+
+        for migration in migrations:
+            if 'locking.' in migration:
+                locking_migrations.append(migration)
+            else:
+                needed_migrations.append(migration)
+
+        num_needed_migrations = len(needed_migrations)
 
         return {
             "migrations": migrations,
@@ -106,7 +113,7 @@ elif migration_data["num_needed_migrations"] != 0:
     logger.info("There are migrations to apply")
     needs_migration = True
 
-    if not (migration_data["needed_migrations"] & migration_data["locking_migrations"]):
+    if not (migration_data["needed_migrations"] and migration_data["locking_migrations"]):
         logger.info("Locking database models have been migrated and can be used")
         locking_migrated = True
 else:
