@@ -1,0 +1,36 @@
+{% extends "questionnaire/base.html" %}
+
+{% block body_content %}
+<div class="container main-body">
+  <h1 class="index-heading">Simple Questionnaire</h1>
+  <div>These are the results for the innane questionnaires.</div>
+  {{ answers_total }}
+  <div><a href="{% url 'index' %}" class="btn btn-primary">Back to index</a></div>
+  <div class="h1 mt-3">Results</div>
+  <div><h3>Months</h3></div>
+  <div class="index-main">
+    <ul>
+    {% for month in months_statistic %}
+        <li>{{ month.month }}: {{ month.the_count }} ({{ month.percent }}%)</li>
+    {% endfor %}
+    </ul>
+  </div>
+  <div><h3>Days</h3></div>
+  <div class="index-main">
+    <ul>
+    {% for day in days_statistic %}
+       <li>{{ day.day }}: {{ day.the_count }} ({{ day.percent }}%)</li>
+    {% endfor %}
+    </ul>
+  </div>
+  <div><h3>Fav day related to month</h3></div>
+  <ul>
+    {% for pair in month_fav_day %}
+      <li>{{ pair.month }}: {{ pair.day }} </li>
+    {% endfor %}
+  </ul>
+
+
+
+</div>
+{% endblock %}
