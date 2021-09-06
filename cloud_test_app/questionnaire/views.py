@@ -1,9 +1,9 @@
 from django.shortcuts import render
+from .models import Questionnaire
 
 
 def index(request):
-    # TODO: make this a real number:
-    num_answers = 0
+    num_answers = Questionnaire.objects.all().count()
     context = {
         "title": "Basic Questions!",
         "num_answers": num_answers,

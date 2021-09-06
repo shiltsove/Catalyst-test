@@ -2,7 +2,7 @@ import calendar
 from django.db import models
 
 
-class Questionnare(models.Model):
+class Questionnaire(models.Model):
     DAY_CHOICES = [
         (1, "Monday"),
         (2, "Tuesday"),
