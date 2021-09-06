@@ -113,7 +113,7 @@ elif migration_data["num_needed_migrations"] != 0:
     logger.info("There are migrations to apply")
     needs_migration = True
 
-    if not (migration_data["needed_migrations"] & migration_data["locking_migrations"]):
+    if not (migration_data["needed_migrations"] and migration_data["locking_migrations"]):
         logger.info("Locking database models have been migrated and can be used")
         locking_migrated = True
 else:
