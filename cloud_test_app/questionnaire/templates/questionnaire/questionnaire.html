@@ -6,9 +6,7 @@
 
   <div class="index-main">
     Simple Questionnaire
-    form generation here
 
-    Hello Jack, Hydra is waiting for you.<br>
     <form action="" method="post" novalidate>
       {% csrf_token %}
       {% for field in question_form.visible_fields %}
