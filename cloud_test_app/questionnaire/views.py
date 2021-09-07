@@ -1,12 +1,13 @@
 from django.db.models import Count
-from django.db.models import Max
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from locking.models import NonBlockingLock
 
 from .forms import QuestionForm
 from .models import Questionnaire
+
 
 
 def index(request):
@@ -23,7 +24,11 @@ def questionnaire(request):
     if request.method == 'POST':
         question_form = QuestionForm(request.POST)
         if question_form.is_valid():
+            lock = NonBlockingLock.objects.acquire_lock(
+                    lock_name="saving_questionnaire"
+                )
             question_form.save()
+            lock.release()
             return HttpResponseRedirect(
                 reverse(
                     'questionnaire'
@@ -53,11 +58,16 @@ def results(request):
     months_in_questionnare = question_list.values_list('month', flat=True).distinct()
 
     for month in months_in_questionnare:
-        fav_day = question_list.filter(month=month).values('day').annotate(the_count=Count('day')).order_by('-the_count').first()['day']
+        fav_day = question_list\
+            .filter(month=month)\
+            .values('day')\
+            .annotate(the_count=Count('day'))\
+            .order_by('-the_count')\
+            .first()['day']
         month_fav_day.append({
             'month': human_readable_months[month],
             'day': human_readable_days[fav_day]
-            })
+        })
 
     context = {
         "title": "Results",
